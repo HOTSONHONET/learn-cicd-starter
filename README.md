@@ -23,3 +23,6 @@ go build -o notely && ./notely
 You do *not* need to set up a database or any interactivity on the webpage yet. Instructions for that will come later in the course!
 
 HOTSONHONET's version of Boot.dev's Notely app.
+
+### CI Test status
+![ci-test-status](https://github.com/HOTSONHONET/learn-cicd-starter/actions/workflows/ci.yml/badge.svg)
