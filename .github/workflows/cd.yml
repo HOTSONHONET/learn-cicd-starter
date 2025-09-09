@@ -13,7 +13,6 @@ jobs:
 
     env:
       DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      GCP_CRED_PATH: ${{ secrets.CLOUD_BUILD_CREDS }}
       IMAGE_TAG: "notely-${{ github.ref_name }}:${{ github.sha }}"
 
     steps:
@@ -33,7 +32,7 @@ jobs:
       - name: Authenticate to Google cloud
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: '${GCP_CRED_PATH}'
+          credentials_json: '${{ secrets.CLOUD_BUILD_CREDS }}'
       
       - name: 'Set up Cloud SDK'
         uses: 'google-github-actions/setup-gcloud@v3'
