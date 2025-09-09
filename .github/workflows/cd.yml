@@ -3,7 +3,7 @@ name: notely-cd
 
 on:
   push:
-    branches: [main]
+    branches: [main, addtests]
 
 
 jobs:
@@ -11,7 +11,6 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     
-
     steps:
       - name: Check out code
         uses: actions/checkout@v4
@@ -23,3 +22,19 @@ jobs:
       
       - name: Buiding the binary
         run: ./scripts/buildprod.sh
+      
+      - name: Authenticate to Google cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: '${{ secrets.CLOUD_BUILD_CREDS }}'
+      
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v3'
+      
+      - name: 'Use gcloud CLI'
+        run: 'gcloud info'
+      
+      - name: Push image to AR
+        run: |
+          IMAGE_TAG="notely-${{ github.ref_name }}:${{ github.sha }}"
+          gcloud builds submit --tag us-central1-docker.pkg.dev/notely-471414/notely-ar-repo/${IMAGE_TAG}
